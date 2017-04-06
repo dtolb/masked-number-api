@@ -97,7 +97,7 @@ module.exports.transferCall = (req, res, next) => {
 		});
 	}
 	else {
-		bw.Call.hangup(callId)
+		bwApi.Call.hangup(callId)
 		.then( () => {
 			debug('Call binding incorrect');
 		})
