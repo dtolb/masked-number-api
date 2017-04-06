@@ -196,3 +196,5 @@ POST localhost:3000/v1/bindings
 
 Call or text the number `+19195554444` number from either `numbers`: `+19192349874`, `+19192349876` and the other number will ring or get a message `from` the `maskedNumber`
 
+![demo](readme_images/demo.png)
+
