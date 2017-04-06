@@ -1,14 +1,16 @@
 const Bandwidth = require('node-bandwidth');
-
 const userId = process.env.BANDWIDTH_USER_ID;
 const apiToken = process.env.BANDWIDTH_API_TOKEN;
 const apiSecret = process.env.BANDWIDTH_API_SECRET;
-const applicationId = process.env.BANDWIDTH_APPLICATION_ID;
+
 const debug = require('debug')('masked-numbers');
+let app = require('../index.js');
 const areaCodes = ['919', '415']
 
-if (!userId || !apiToken || !apiSecret || !applicationId) {
-  throw new Error('Invalid or non-existing Bandwidth credentials. \n Please set your: \n * userId \n * apiToken \n * apiSecret \n *applicationId');
+// let applicationId = process.env.BANDWIDTH_APPLICATION_ID;
+
+if (!userId || !apiToken || !apiSecret ) {
+  throw new Error('Invalid or non-existing Bandwidth credentials. \n Please set your: \n * userId \n * apiToken \n * apiSecret');
 }
 
 const bwApi = new Bandwidth({
@@ -34,10 +36,10 @@ module.exports.getNewNumber = (req, res, next) => {
 		// Need number id to update
 		const numberId = numbers[0].id;
 		// Assign number to application
-		debug('Updating Number to application: ' + applicationId);
+		debug('Updating Number to application: ' + app.applicationId);
 		return bwApi.PhoneNumber.update(numberId, {
 			name: numberName.toString(),
-			applicationId: applicationId
+			applicationId: app.applicationId
 		});
 	})
 	.then( () => {
@@ -134,4 +136,72 @@ module.exports.sendMessage = (req, res, next) => {
 	.catch( (reason) => {
 		debug(reason);
 	});
+};
+
+/**
+ * Below here is setup logic. This is only run once per instance of this application
+ * The main use of the logic below is for one click deployments. Most likely,
+ * you would NOT need this in a production envirnonment.
+ *
+ * This handles the oddness of heroku sleep and not knowing the heroku url until
+ * deploying.
+ */
+
+//Checks the current Applications to see if we have one.
+module.exports.checkOrCreateApplication = (req, res, next) => {
+	if (app.applicationId) {
+		next();
+		return;
+	}
+	app.callbackUrl = getBaseUrlFromReq(req);
+	app.name = app.rootName + app.callbackUrl;
+	bwApi.Application.list({
+		size: 1000
+	})
+	.then( (apps) => {
+		const appId = searchForApplication(apps.applications, app.name);
+		if(appId !== false) {
+			debug('Application Found: ' + appId);
+			app.applicationId = appId;
+			next();
+		}
+		else {
+			debug('No Application Found');
+			newApplication(app.name, app.callbackUrl)
+			.then( (application) => {
+				debug('Created Application: ' + application.id);
+				app.applicationId = application.id;
+				next();
+			});
+		}
+	})
+	.catch( (reason) => {
+		debug(reason);
+		next(reason);
+	});
+};
+
+// Searches for applicatoin by name
+const searchForApplication = (applications, name) => {
+	for (var i = 0; i < applications.length; i+=1) {
+			if ( applications[i].name === name) {
+				return applications[i].id;
+			}
+		}
+	return false;
+};
+
+// Creates a new application with callbacks set to this server
+const newApplication = (appName, url) => {
+	return bwApi.Application.create({
+		name: appName,
+		incomingMessageUrl: url + '/bandwidth/messages',
+		incomingCallUrl: url + '/bandwidth/calls',
+		callbackHttpMethod: 'post',
+		autoAnswer: true
+	});
+};
+
+const getBaseUrlFromReq = (req) => {
+	return 'http://' + req.hostname;
 };

@@ -4,7 +4,9 @@
   "description": "Stupid simple masked numbers with bandwidth",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'no tests yet'"
+    "test": "echo 'no tests yet'",
+    "debug": "DEBUG=masked-numbers,express* nodemon index.js",
+    "start": "DEBUG=masked-numbers,express* node index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,14 @@
     "body-parser": "^1.17.1",
     "debug": "^2.6.3",
     "express": "^4.15.2",
-    "node-bandwidth": "^2.3.2"
+    "node-bandwidth": "^2.3.2",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.4",
+    "serve-favicon": "^2.4.2",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
