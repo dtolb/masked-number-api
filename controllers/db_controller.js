@@ -1,3 +1,5 @@
+const debug = require('debug')('masked-numbers');
+
 let db = {};
 
 const arraysEqual = (arr1, arr2) => {
@@ -41,7 +43,11 @@ module.exports.saveBinding = (req, res, next) => {
 	const numbers = req.body.numbers;
 	db[newNumber] = numbers;
 	debug('New binding saved as: ' + newNumber);
-	res.status('201').location(newNumber).send();
+	resBody = {
+		maskedNumber: newNumber,
+		numbers: numbers
+	}
+	res.status('201').send(resBody);
 };
 
 module.exports.findNumbers = (req, res, next) => {
@@ -51,7 +57,8 @@ module.exports.findNumbers = (req, res, next) => {
 	const bindingExists = (db.hasOwnProperty(key));
 	req.bindingExists = bindingExists;
 	if (bindingExists){
-		let numbers = db[key];
+		//deep copy here :)
+		let numbers = JSON.parse(JSON.stringify(db[key]));
 		const index = numbers.indexOf(from);
 		if (index !== -1) {
     		numbers.splice(index, 1);
@@ -67,5 +74,5 @@ module.exports.findNumbers = (req, res, next) => {
 module.exports.listBindings = (req, res, next) => {
 	debug('Returning Bindings');
 	debug(db);
-	req.status(200).send(db);
+	res.status(200).send(db);
 }

@@ -4,11 +4,11 @@ const userId = process.env.BANDWIDTH_USER_ID;
 const apiToken = process.env.BANDWIDTH_API_TOKEN;
 const apiSecret = process.env.BANDWIDTH_API_SECRET;
 const applicationId = process.env.BANDWIDTH_APPLICATION_ID;
-const debug = require('debug')(masked-numbers);
+const debug = require('debug')('masked-numbers');
 const areaCodes = ['919', '415']
 
-if (!userId || !apiToken || !apiSecret ) {
-  throw new Error('Invalid or non-existing Bandwidth credentials. \Please set your: \n * userId \n * apiToken \n * apiSecret');
+if (!userId || !apiToken || !apiSecret || !applicationId) {
+  throw new Error('Invalid or non-existing Bandwidth credentials. \n Please set your: \n * userId \n * apiToken \n * apiSecret \n *applicationId');
 }
 
 const bwApi = new Bandwidth({
@@ -22,10 +22,11 @@ module.exports.getNewNumber = (req, res, next) => {
 	// Order number from bandwidth
 	let newNumber = '';
 	bwApi.AvailableNumber.searchAndOrder('local', {
-		areaCode : areaCodes[0]
+		areaCode : areaCodes[0],
 		quantity : 1
 	})
 	.then((numbers) => {
+		debug(numbers);
 		// Make number name the two numbers binded
 		const numberName = req.body.numbers;
 		newNumber = numbers[0].number;
@@ -33,8 +34,9 @@ module.exports.getNewNumber = (req, res, next) => {
 		// Need number id to update
 		const numberId = numbers[0].id;
 		// Assign number to application
+		debug('Updating Number to application: ' + applicationId);
 		return bwApi.PhoneNumber.update(numberId, {
-			name: numberName,
+			name: numberName.toString(),
 			applicationId: applicationId
 		});
 	})
@@ -84,7 +86,7 @@ module.exports.transferCall = (req, res, next) => {
 			transferCallerId: req.body.to
 		};
 		bwApi.Call.transfer(callId, transfer)
-		.then( (transerId) => {
+		.then( (transferId) => {
 			debug('Call Transfered! TransferId: ' + transferId);
 			return
 		})

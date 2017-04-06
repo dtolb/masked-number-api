@@ -1,7 +1,7 @@
 const Bandwidth = require('node-bandwidth');
 const bodyParser = require('body-parser');
 const name = 'masked-numbers';
-const debug = require('debug')(masked-numbers);
+const debug = require('debug')('masked-numbers');
 debug('booting %s', name);
 
 
