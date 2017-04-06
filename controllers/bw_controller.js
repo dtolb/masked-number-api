@@ -154,12 +154,13 @@ module.exports.checkOrCreateApplication = (req, res, next) => {
 		return;
 	}
 	app.callbackUrl = getBaseUrlFromReq(req);
-	app.name = app.rootName + app.callbackUrl;
+	const appName = app.rootName + ' on ' +app.callbackUrl;
+	debug('appName: ' + appName);
 	bwApi.Application.list({
 		size: 1000
 	})
 	.then( (apps) => {
-		const appId = searchForApplication(apps.applications, app.name);
+		const appId = searchForApplication(apps.applications, appName);
 		if(appId !== false) {
 			debug('Application Found: ' + appId);
 			app.applicationId = appId;

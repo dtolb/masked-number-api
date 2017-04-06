@@ -8,7 +8,7 @@ debug('booting %s', 'masked-numbers');
 
 const express = require('express');
 let app = express();
-app.rootName = 'maskedNumbers-';
+app.rootName = 'masked-numbers-api';
 
 function startServer() {
 	debug('Starting Server');
