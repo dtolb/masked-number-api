@@ -7,6 +7,7 @@ Stupid simple masked numbers
 * [PreReqs](#prereqs)
 * [Todos](#todos)
 * [How it works](#how-it-works)
+ * [Diagram](#call-the-maskednumber-from-either-one-of-the-two-numbers)
 * [Setup Bandwidth application](#setup-bandwidth-application)
 * [Setup Ngrok](#hosting-with-ngrok)
 * [Run Application](#installing-and-running)
@@ -45,17 +46,17 @@ To create a number between two numbers, create a `POST` request to the service:
 POST /v1/bindings
 
 {
-	"numbers": ["number_1_to_bind", "number_2_to_bind"]
+	"numbers": ["+19192223333", "+19194445555"]
 }
 
 201 Created
 {
-	"maskedNumber": "+19194561234",
-	"numbers": ["number_1_to_bind", "number_2_to_bind"]
+	"maskedNumber": "+19197778888",
+	"numbers": ["+19192223333", "+19194445555"]
 }
 ```
 
-The number that binds the two numbers is returned in the `Location Header`
+The number that binds the two numbers is returned in the response body as the `maskedNumber`
 
 ### View current bindings
 
@@ -63,12 +64,16 @@ The number that binds the two numbers is returned in the `Location Header`
 GET /v1/bindings
 
 {
-	"binding_number_1" : ["number_1_to_bind", "number_3_to_bind"],
+	"binding_number_1" : ["+19192223333", "number_3_to_bind"],
 	"binding_number_2" : ["number_5_to_bind", "number_8_to_bind"],
 	"....": "....",
-	"binding_number_n" : ["number_1_to_bind", "number_2_to_bind"],
+	"+19197778888" : ["+19192223333", "+19194445555"],
 }
 ```
+
+### Call the 'maskedNumber' from either one of the two numbers
+
+![diagram](readme_images/how-it-works-diagram.png)
 
 ## Setup Bandwidth Application
 
