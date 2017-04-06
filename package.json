@@ -1,0 +1,33 @@
+{
+  "name": "masked-number-api",
+  "version": "0.0.1",
+  "description": "Stupid simple masked numbers with bandwidth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'no tests yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://dtolb@github.com/dtolb/masked-number-api.git"
+  },
+  "keywords": [
+    "bandwidth",
+    "sms",
+    "masked",
+    "masked-sms",
+    "masked-calling",
+    "call-tracking"
+  ],
+  "author": "Dan Tolbert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dtolb/masked-number-api/issues"
+  },
+  "homepage": "https://github.com/dtolb/masked-number-api#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "debug": "^2.6.3",
+    "express": "^4.15.2",
+    "node-bandwidth": "^2.3.2"
+  }
+}
