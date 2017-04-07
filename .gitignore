@@ -38,3 +38,5 @@ jspm_packages
 .nvmrc
 
 .env
+
+*.DS_Store
