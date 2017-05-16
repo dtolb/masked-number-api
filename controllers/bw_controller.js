@@ -168,7 +168,7 @@ module.exports.checkOrCreateApplication = (req, res, next) => {
 		}
 		else {
 			debug('No Application Found');
-			newApplication(app.name, app.callbackUrl)
+			newApplication(appName, app.callbackUrl)
 			.then( (application) => {
 				debug('Created Application: ' + application.id);
 				app.applicationId = application.id;
