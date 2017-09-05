@@ -1,8 +1,9 @@
+<div align="center">
+
 # Bandwidth Masked Number API
 
-<p align="center">
-  <img src="https://s3.amazonaws.com/bwdemos/BW_Voice%2Cmessaging%2C+phonenumbers.png"/>
-</p>
+<img src="https://s3.amazonaws.com/bwdemos/BW_Voice%2Cmessaging%2C+phonenumbers.png"/>
+</div>
 
 Stupid simple masked numbers
 
