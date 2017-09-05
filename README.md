@@ -2,7 +2,7 @@
 
 # Bandwidth Masked Number API
 
-<img src="https://s3.amazonaws.com/bwdemos/BW_Voice%2Cmessaging%2C+phonenumbers.png"/>
+<img src="https://s3.amazonaws.com/bwdemos/BW-VMP.png"/>
 </div>
 
 Stupid simple masked numbers
