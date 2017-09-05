@@ -1,4 +1,9 @@
-# masked-number-api
+# Bandwidth Masked Number API
+
+<p align="center">
+  <img src="https://s3.amazonaws.com/bwdemos/BW_Voice%2Cmessaging%2C+phonenumbers.png"/>
+</p>
+
 Stupid simple masked numbers
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
