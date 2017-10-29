@@ -2,7 +2,7 @@
 
 # Bandwidth Masked Number API
 
-<img src="https://s3.amazonaws.com/bwdemos/BW-VMP.png"/>
+<a href="http://dev.bandwidth.com><img src="https://s3.amazonaws.com/bwdemos/BW-VMP.png"/></a>
 </div>
 
 Stupid simple masked numbers
