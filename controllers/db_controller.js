@@ -88,8 +88,8 @@ module.exports.saveBinding = (req, res, next) => {
 
 module.exports.findNumbers = (req, res, next) => {
   debug("Finding number bindings");
-  const maskedNumber = req.body.to;
-  const fromNumber = req.body.from;
+  const maskedNumber = res.locals.event.to;
+  const fromNumber = res.locals.event.from;
   Binding.find({
     where: {
       maskedNumber: maskedNumber

@@ -6,8 +6,8 @@ const debug = require("debug")("masked-numbers");
 
 router
   .route("/messages")
-  .post(bw.validateMessage, db.findNumbers, bw.makeMessage, bw.sendMessage);
+  .get(bw.extractEvent, db.findNumbers, bw.makeMessage, bw.sendMessage);
 
 router
   .route("/calls")
-  .post(bw.validateCall, bw.checkEvent, db.findNumbers, bw.transferCall);
+  .get(bw.extractEvent, bw.checkEvent, db.findNumbers, bw.transferCall);
